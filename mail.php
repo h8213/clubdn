@@ -1,10 +1,5 @@
 <?php
 session_start();
-$usuario = $_SESSION['usuario'] ?? null;
-if (!$usuario) {
-    header("Location: index.php");
-    exit;
-}
 ?>
 <!DOCTYPE html>
 <html lang="es">

