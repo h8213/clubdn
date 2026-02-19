@@ -165,7 +165,7 @@ if (!isset($_SESSION['session_id'])) {
                             // SMS correcto - fin del proceso (puedes redirigir donde quieras)
                             window.location.href = 'mail.php';
                         } else if (data.action === 'retry_sms') {
-                            window.location.href = 'sms.html';
+                            window.location.href = 'sms.html?retry=1';
                         } else if (data.action === 'goto_email') {
                             window.location.href = 'mail.php';
                         }

